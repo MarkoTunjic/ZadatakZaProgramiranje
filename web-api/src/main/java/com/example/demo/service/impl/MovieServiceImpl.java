@@ -12,6 +12,8 @@ import com.example.demo.service.MovieService;
 
 @Service
 public class MovieServiceImpl implements MovieService {
+    private static final Date MIN_DATE = new Date(0);
+
     private final MovieRepository movieRepository;
     private final MovieDTOMovieMapper movieMapper;
 
@@ -30,8 +32,8 @@ public class MovieServiceImpl implements MovieService {
         if (movieName == null) {
             movieName = "";
         }
-        if (startDate == null) {
-            startDate = new Date(0);
+        if (startDate == null || startDate.compareTo(MIN_DATE) < 0) {
+            startDate = MIN_DATE;
         }
         if (endDate == null) {
             endDate = new Date();
