@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,10 +28,14 @@ public class MovieRepositoryTests {
     @Autowired
     private GenreRepository genreRepository;
 
-    @Test
-    public void integrationTest_findByNameContainingAndAddingDateBetween_whenPassingNonExistingNameSubstring() {
+    @BeforeEach
+    public void fillDatabase() {
         genreRepository.saveAllAndFlush(Constants.genres);
         movieRepository.saveAllAndFlush(Constants.movies);
+    }
+
+    @Test
+    public void integrationTest_findByNameContainingAndAddingDateBetween_whenPassingNonExistingNameSubstring() {
         List<Movie> result = movieRepository.findByNameContainingIgnoreCaseAndAddingDateBetween("xyz", new Date(0),
                 new Date());
 
@@ -40,8 +45,7 @@ public class MovieRepositoryTests {
 
     @Test
     public void integrationTest_findByNameContainingAndAddingDateBetween_whenPassingSubstringThatAllContain() {
-        genreRepository.saveAllAndFlush(Constants.genres);
-        List<Movie> expected = movieRepository.saveAllAndFlush(Constants.movies);
+        List<Movie> expected = movieRepository.findAll();
         List<Movie> result = movieRepository.findByNameContainingIgnoreCaseAndAddingDateBetween("mov", new Date(0),
                 new Date());
 
@@ -50,8 +54,6 @@ public class MovieRepositoryTests {
 
     @Test
     public void integrationTest_findByNameContainingAndAddingDateBetween_whenPassingLateStartDate() {
-        genreRepository.saveAllAndFlush(Constants.genres);
-        movieRepository.saveAllAndFlush(Constants.movies);
         List<Movie> result = movieRepository.findByNameContainingIgnoreCaseAndAddingDateBetween("mov", new Date(),
                 new Date());
 
@@ -60,8 +62,6 @@ public class MovieRepositoryTests {
 
     @Test
     public void integrationTest_findByNameContainingAndAddingDateBetween_whenPassingEarlyEndDate() {
-        genreRepository.saveAllAndFlush(Constants.genres);
-        movieRepository.saveAllAndFlush(Constants.movies);
         List<Movie> result = movieRepository.findByNameContainingIgnoreCaseAndAddingDateBetween("mov", new Date(0),
                 new Date(1L));
 
@@ -71,8 +71,6 @@ public class MovieRepositoryTests {
 
     @Test
     public void integrationTest_findByNameContainingAndAddingDateBetween_whenPassingSomeValidFilterValues() {
-        genreRepository.saveAllAndFlush(Constants.genres);
-        movieRepository.saveAllAndFlush(Constants.movies);
         Date startDate = Constants.movies.get(2).getAddingDate();
         Date endDate = new Date();
         String searchString = "Movie 1";
@@ -95,8 +93,6 @@ public class MovieRepositoryTests {
 
     @Test
     public void integrationTest_findByNameContainingAndAddingDateBetweenAndGenreNameIn_whenPassingSomeValidFilterValues() {
-        genreRepository.saveAllAndFlush(Constants.genres);
-        movieRepository.saveAllAndFlush(Constants.movies);
         Date startDate = Constants.movies.get(2).getAddingDate();
         Date endDate = new Date();
         String searchString = "mov";
@@ -124,8 +120,7 @@ public class MovieRepositoryTests {
 
     @Test
     public void integrationTest_findByNameContainingAndAddingDateBetweenAndGenreNameIn_whenPassingAllGenres() {
-        genreRepository.saveAllAndFlush(Constants.genres);
-        List<Movie> expected = movieRepository.saveAllAndFlush(Constants.movies);
+        List<Movie> expected = movieRepository.findAll();
         Date startDate = new Date(0);
         Date endDate = new Date();
         String searchString = "mov";
@@ -142,8 +137,6 @@ public class MovieRepositoryTests {
 
     @Test
     public void integrationTest_findByNameContainingAndAddingDateBetweenAndGenreNameIn_whenEmptyGenres() {
-        genreRepository.saveAllAndFlush(Constants.genres);
-        movieRepository.saveAllAndFlush(Constants.movies);
         Date startDate = new Date(0);
         Date endDate = new Date();
         String searchString = "mov";
