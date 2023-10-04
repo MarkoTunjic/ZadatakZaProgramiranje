@@ -56,7 +56,6 @@ public class MovieRepositoryTests {
                 new Date());
 
         assertTrue(result.isEmpty());
-
     }
 
     @Test
