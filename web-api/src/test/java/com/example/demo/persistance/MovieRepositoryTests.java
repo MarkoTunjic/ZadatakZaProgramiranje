@@ -3,6 +3,7 @@ package com.example.demo.persistance;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,17 +25,18 @@ public class MovieRepositoryTests {
     private GenreRepository genreRepository;
 
     @Test
-    public void integrationTest_findByNameContainingAndAddingDateBetweenAndGenreNameIn_whenPassingNonExistingNameSubstring() {
+    public void integrationTest_findByNameContainingAndAddingDateBetween_whenPassingNonExistingNameSubstring() {
         genreRepository.saveAllAndFlush(Constants.genres);
         movieRepository.saveAllAndFlush(Constants.movies);
         List<Movie> result = movieRepository.findByNameContainingIgnoreCaseAndAddingDateBetween("xyz", new Date(0),
                 new Date());
 
-        assertEquals(0, result.size());
+        assertTrue(result.isEmpty());
+
     }
 
     @Test
-    public void integrationTest_findByNameContainingAndAddingDateBetweenAndGenreNameIn_whenPassingSubstringThatAllContain() {
+    public void integrationTest_findByNameContainingAndAddingDateBetween_whenPassingSubstringThatAllContain() {
         genreRepository.saveAllAndFlush(Constants.genres);
         List<Movie> expected = movieRepository.saveAllAndFlush(Constants.movies);
         List<Movie> result = movieRepository.findByNameContainingIgnoreCaseAndAddingDateBetween("mov", new Date(0),
@@ -44,27 +46,29 @@ public class MovieRepositoryTests {
     }
 
     @Test
-    public void integrationTest_findByNameContainingAndAddingDateBetweenAndGenreNameIn_whenPassingLateStartDate() {
+    public void integrationTest_findByNameContainingAndAddingDateBetween_whenPassingLateStartDate() {
         genreRepository.saveAllAndFlush(Constants.genres);
         movieRepository.saveAllAndFlush(Constants.movies);
         List<Movie> result = movieRepository.findByNameContainingIgnoreCaseAndAddingDateBetween("mov", new Date(),
                 new Date());
 
-        assertEquals(0, result.size());
+        assertTrue(result.isEmpty());
+
     }
 
     @Test
-    public void integrationTest_findByNameContainingAndAddingDateBetweenAndGenreNameIn_whenPassingEarlyEndDate() {
+    public void integrationTest_findByNameContainingAndAddingDateBetween_whenPassingEarlyEndDate() {
         genreRepository.saveAllAndFlush(Constants.genres);
         movieRepository.saveAllAndFlush(Constants.movies);
         List<Movie> result = movieRepository.findByNameContainingIgnoreCaseAndAddingDateBetween("mov", new Date(0),
                 new Date(1L));
 
-        assertEquals(0, result.size());
+        assertTrue(result.isEmpty());
+
     }
 
     @Test
-    public void integrationTest_findByNameContainingAndAddingDateBetweenAndGenreNameIn_whenPassingSomeValidFilterValues() {
+    public void integrationTest_findByNameContainingAndAddingDateBetween_whenPassingSomeValidFilterValues() {
         genreRepository.saveAllAndFlush(Constants.genres);
         movieRepository.saveAllAndFlush(Constants.movies);
         Date startDate = Constants.movies.get(2).getAddingDate();
@@ -85,5 +89,67 @@ public class MovieRepositoryTests {
             }
             return true;
         });
+    }
+
+    @Test
+    public void integrationTest_findByNameContainingAndAddingDateBetweenAndGenreNameIn_whenPassingSomeValidFilterValues() {
+        genreRepository.saveAllAndFlush(Constants.genres);
+        movieRepository.saveAllAndFlush(Constants.movies);
+        Date startDate = Constants.movies.get(2).getAddingDate();
+        Date endDate = new Date();
+        String searchString = "mov";
+        List<String> genreNames = List.of("Thriller");
+        List<Movie> result = movieRepository.findByNameContainingIgnoreCaseAndAddingDateBetweenAndGenreNameIn(
+                searchString, startDate,
+                endDate, genreNames);
+
+        assertTrue(() -> {
+            for (Movie movie : result) {
+                if (!movie.getName().toLowerCase().contains(searchString.toLowerCase())) {
+                    return false;
+                }
+                if (movie.getAddingDate().compareTo(startDate) < 0
+                        || movie.getAddingDate().compareTo(endDate) > 0) {
+                    return false;
+                }
+                if (!genreNames.contains(movie.getGenre().getName())) {
+                    return false;
+                }
+            }
+            return true;
+        });
+    }
+
+    @Test
+    public void integrationTest_findByNameContainingAndAddingDateBetweenAndGenreNameIn_whenPassingAllGenres() {
+        genreRepository.saveAllAndFlush(Constants.genres);
+        List<Movie> expected = movieRepository.saveAllAndFlush(Constants.movies);
+        Date startDate = new Date(0);
+        Date endDate = new Date();
+        String searchString = "mov";
+        List<String> genreNames = new ArrayList<>();
+        Constants.genres.forEach(genre -> {
+            genreNames.add(genre.getName());
+        });
+        List<Movie> result = movieRepository.findByNameContainingIgnoreCaseAndAddingDateBetweenAndGenreNameIn(
+                searchString, startDate,
+                endDate, genreNames);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void integrationTest_findByNameContainingAndAddingDateBetweenAndGenreNameIn_whenEmptyGenres() {
+        genreRepository.saveAllAndFlush(Constants.genres);
+        movieRepository.saveAllAndFlush(Constants.movies);
+        Date startDate = new Date(0);
+        Date endDate = new Date();
+        String searchString = "mov";
+        List<String> genreNames = new ArrayList<>();
+        List<Movie> result = movieRepository.findByNameContainingIgnoreCaseAndAddingDateBetweenAndGenreNameIn(
+                searchString, startDate,
+                endDate, genreNames);
+
+        assertTrue(result.isEmpty());
     }
 }
