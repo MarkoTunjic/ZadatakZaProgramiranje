@@ -15,8 +15,11 @@ import org.springframework.test.context.ActiveProfiles;
 import com.example.demo.Constants;
 import com.example.demo.domain.models.Movie;
 
+import jakarta.transaction.Transactional;
+
 @SpringBootTest
 @ActiveProfiles("test")
+@Transactional
 public class MovieRepositoryTests {
     @Autowired
     private MovieRepository movieRepository;
