@@ -21,10 +21,10 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(Long id, String name, Date addingDate) {
-        this.id = id;
+    public Movie(String name, Date addingDate, Genre genre) {
         this.name = name;
         this.addingDate = addingDate;
+        this.genre = genre;
     }
 
     @Id

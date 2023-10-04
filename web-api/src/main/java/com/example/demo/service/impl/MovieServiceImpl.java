@@ -41,11 +41,12 @@ public class MovieServiceImpl implements MovieService {
 
         if (genreNames == null) {
             return movieMapper.moviesToMovieDTOs(
-                    movieRepository.findByNameContainingAndAddingDateBetween(movieName, startDate, endDate));
+                    movieRepository.findByNameContainingIgnoreCaseAndAddingDateBetween(movieName, startDate, endDate));
         }
 
         return movieMapper.moviesToMovieDTOs(movieRepository
-                .findByNameContainingAndAddingDateBetweenAndGenreNameIn(movieName, startDate, endDate, genreNames));
+                .findByNameContainingIgnoreCaseAndAddingDateBetweenAndGenreNameIn(movieName, startDate, endDate,
+                        genreNames));
     }
 
 }

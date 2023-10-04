@@ -10,8 +10,8 @@ import java.util.List;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Long> {
-    List<Movie> findByNameContainingAndAddingDateBetweenAndGenreNameIn(String movieName, Date start, Date end,
+    List<Movie> findByNameContainingIgnoreCaseAndAddingDateBetweenAndGenreNameIn(String movieName, Date start, Date end,
             List<String> genreNames);
 
-    List<Movie> findByNameContainingAndAddingDateBetween(String movieName, Date start, Date end);
+    List<Movie> findByNameContainingIgnoreCaseAndAddingDateBetween(String movieName, Date start, Date end);
 }

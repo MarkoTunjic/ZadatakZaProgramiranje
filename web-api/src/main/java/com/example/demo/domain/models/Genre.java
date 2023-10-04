@@ -22,13 +22,11 @@ public class Genre {
     public Genre() {
     }
 
-    public Genre(Long id, String name) {
-        this.id = id;
+    public Genre(String name) {
         this.name = name;
     }
 
-    public Genre(Long id, String name, List<Movie> movies) {
-        this.id = id;
+    public Genre(String name, List<Movie> movies) {
         this.name = name;
         this.movies = movies;
     }
