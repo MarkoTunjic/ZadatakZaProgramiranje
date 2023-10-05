@@ -1,0 +1,15 @@
+.gitignore
+README.md
+api.module.ts
+api/api.ts
+api/genreController.service.ts
+api/movieController.service.ts
+configuration.ts
+encoder.ts
+git_push.sh
+index.ts
+model/genreDTO.ts
+model/models.ts
+model/movieDTO.ts
+param.ts
+variables.ts
