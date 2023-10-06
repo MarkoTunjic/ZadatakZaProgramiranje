@@ -17,7 +17,8 @@
         <mat-form-field class="date-filter">
             <mat-label>Choose a start date</mat-label>
             <!-- #docregion toggle -->
-            <input matInput [matDatepicker]="picker1" name="startDate" [(ngModel)]="startDate">
+            <input matInput [defaultValue]="startDate" [matDatepicker]="picker1" name="startDate"
+                [(ngModel)]="startDate">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>

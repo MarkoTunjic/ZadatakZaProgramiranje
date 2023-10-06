@@ -1,6 +1,6 @@
 import { Component, ViewChild } from "@angular/core";
 import { GenreDTO, MovieDTO } from "src/api";
-
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,6 +8,7 @@ import { MovieService } from "src/app/services/movie.service";
 import { Observable } from "rxjs";
 import { GenreService } from "src/app/services/genre.service";
 import { formatDate } from "@angular/common";
+import { FormControl } from "@angular/forms";
 
 @Component({
     selector: 'movie-component',
@@ -15,7 +16,7 @@ import { formatDate } from "@angular/common";
     styleUrls: ['movie-table.component.css']
 })
 export class MovieTableComponent {
-    dateFormat = "dd/MM/yyyy"
+    dateFormat = "MM/dd/yyyy"
     locale = 'en-US';
 
     dataSource = new MatTableDataSource<MovieDTO>();
@@ -24,17 +25,28 @@ export class MovieTableComponent {
 
     searchString: string = ""
     genreNames: string[];
-    startDate?: string;
-    endDate?: string;
+    startDate?: Date;
+    endDate?: Date;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(private movieService: MovieService, private genreService: GenreService) {
+    constructor(private movieService: MovieService, private genreService: GenreService, private route: ActivatedRoute, private router: Router) {
     }
 
     ngOnInit() {
-        this.movieService.getAllMovies().subscribe(movies => this.dataSource = new MatTableDataSource(movies));
+        this.route.queryParams
+            .subscribe(params => {
+                console.log(params); // { order: "popular" }
+                this.searchString = params["searchString"];
+                this.startDate = params["startDate"] === undefined ? undefined : new Date(params["startDate"]);
+                this.endDate = params["endDate"] === undefined ? undefined : new Date(params["endDate"]);
+                this.genreNames = typeof params["genreNames"] === "string" ? [params["genreNames"]] : params["genreNames"];
+                const formattedStartDate = this.startDate !== undefined ? formatDate(this.startDate, this.dateFormat, this.locale) : this.startDate;
+                const formattedEndDate = this.endDate !== undefined ? formatDate(this.endDate, this.dateFormat, this.locale) : this.endDate;
+                this.movieService.getFilteredMovies(this.searchString, formattedStartDate, formattedEndDate, this.genreNames).subscribe(movies => this.dataSource = new MatTableDataSource(movies));
+            }
+            );
         this.options = this.genreService.getAllGenres();
     }
 
@@ -44,12 +56,19 @@ export class MovieTableComponent {
     }
 
     filter() {
-        if (this.startDate?.length == 0) {
-            this.startDate = undefined;
-        }
-        if (this.endDate?.length == 0) {
-            this.endDate = undefined;
-        }
-        this.movieService.getFilteredMovies(this.searchString, this.startDate !== undefined ? formatDate(this.startDate, this.dateFormat, this.locale) : this.startDate, this.endDate !== undefined ? formatDate(this.endDate, this.dateFormat, this.locale) : this.endDate, this.genreNames).subscribe(movies => this.dataSource = new MatTableDataSource(movies));
+        const formattedStartDate = this.startDate !== undefined ? formatDate(this.startDate, this.dateFormat, this.locale) : this.startDate;
+        const formattedEndDate = this.endDate !== undefined ? formatDate(this.endDate, this.dateFormat, this.locale) : this.endDate;
+        this.router.navigate(
+            ['/home'],
+            {
+                queryParams: {
+                    searchString: this.searchString,
+                    startDate: formattedStartDate,
+                    endDate: formattedEndDate,
+                    genreNames: this.genreNames
+                },
+            }
+        );
+        this.movieService.getFilteredMovies(this.searchString, formattedStartDate, formattedEndDate, this.genreNames).subscribe(movies => this.dataSource = new MatTableDataSource(movies));
     }
 }

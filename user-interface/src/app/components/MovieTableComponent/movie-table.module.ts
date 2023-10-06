@@ -17,7 +17,9 @@ import { NgFor } from "@angular/common";
 import { MatSelectModule } from "@angular/material/select";
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from "@angular/material/button";
-
+import { RouterModule } from "@angular/router";
+import { RouterTestingModule } from "@angular/router/testing";
+import { appRoutes } from "src/app/app.routes";
 
 @NgModule({
     declarations: [
@@ -36,7 +38,10 @@ import { MatButtonModule } from "@angular/material/button";
         NgFor,
         MatDatepickerModule,
         MatNativeDateModule,
-        MatButtonModule
+        MatButtonModule,
+        RouterModule,
+        RouterTestingModule,
+        RouterModule.forRoot(appRoutes)
     ],
     providers: [provideHttpClient(),
     provideAnimations(),
