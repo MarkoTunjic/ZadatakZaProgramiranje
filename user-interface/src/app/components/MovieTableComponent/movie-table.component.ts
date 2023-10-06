@@ -11,8 +11,6 @@ import { MovieService } from "src/app/services/movie.service";
 @Component({
     selector: 'movie-component',
     templateUrl: 'movie-table.component.html',
-    standalone: true,
-    imports: [MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule],
 })
 export class MovieTableComponent {
     dataSource = new MatTableDataSource<MovieDTO>();
