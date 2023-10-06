@@ -5,10 +5,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MovieService } from "src/app/services/movie.service";
-import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs";
-import { map, startWith } from 'rxjs/operators';
 import { GenreService } from "src/app/services/genre.service";
+import { formatDate } from "@angular/common";
 
 @Component({
     selector: 'movie-component',
@@ -16,13 +15,17 @@ import { GenreService } from "src/app/services/genre.service";
     styleUrls: ['movie-table.component.css']
 })
 export class MovieTableComponent {
+    dateFormat = "dd/MM/yyyy"
+    locale = 'en-US';
+
     dataSource = new MatTableDataSource<MovieDTO>();
     displayedColumns: string[] = ['id', 'name', 'addingDate', 'genreName'];
-    searchString: string = ""
     options: Observable<GenreDTO[]>;
-    selected: GenreDTO[];
-    startDate: string;
-    endDate: string;
+
+    searchString: string = ""
+    genreNames: string[];
+    startDate?: string;
+    endDate?: string;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
@@ -40,7 +43,13 @@ export class MovieTableComponent {
         this.dataSource.sort = this.sort;
     }
 
-    searchStringChange() {
-        console.log(this.startDate)
+    filter() {
+        if (this.startDate?.length == 0) {
+            this.startDate = undefined;
+        }
+        if (this.endDate?.length == 0) {
+            this.endDate = undefined;
+        }
+        this.movieService.getFilteredMovies(this.searchString, this.startDate !== undefined ? formatDate(this.startDate, this.dateFormat, this.locale) : this.startDate, this.endDate !== undefined ? formatDate(this.endDate, this.dateFormat, this.locale) : this.endDate, this.genreNames).subscribe(movies => this.dataSource = new MatTableDataSource(movies));
     }
 }

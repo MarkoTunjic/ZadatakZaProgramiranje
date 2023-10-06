@@ -2,14 +2,13 @@
     <div class="filter-inputs">
         <mat-form-field class="example-full-width search-field">
             <mat-label>Search string</mat-label>
-            <input name="searchString" [(ngModel)]="searchString" matInput placeholder="Ex. Star Wars"
-                (ngModelChange)="searchStringChange()">
+            <input name="searchString" [(ngModel)]="searchString" matInput placeholder="Ex. Star Wars">
         </mat-form-field>
 
         <mat-form-field class="genre-field">
             <mat-label>Genre</mat-label>
-            <mat-select multiple="true" [(ngModel)]="selected" name="genrePicker">
-                <mat-option *ngFor="let genre of options | async" [value]="genre">
+            <mat-select multiple="true" [(ngModel)]="genreNames" name="genrePicker">
+                <mat-option *ngFor="let genre of options | async" [value]="genre.name">
                     {{genre.name}}
                 </mat-option>
             </mat-select>
@@ -18,8 +17,7 @@
         <mat-form-field class="date-filter">
             <mat-label>Choose a start date</mat-label>
             <!-- #docregion toggle -->
-            <input matInput [matDatepicker]="picker1" name="startDate" [(ngModel)]="startDate"
-                (ngModelChange)="searchStringChange()">
+            <input matInput [matDatepicker]="picker1" name="startDate" [(ngModel)]="startDate">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
@@ -37,7 +35,7 @@
         </mat-form-field>
     </div>
     <div>
-        <button class="submit-button" mat-raised-button color="primary">Submit</button>
+        <button (click)="filter()" class="submit-button" mat-raised-button color="primary">Submit</button>
     </div>
 </div>
 
