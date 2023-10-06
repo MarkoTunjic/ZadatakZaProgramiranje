@@ -13,6 +13,7 @@ import { GenreService } from "src/app/services/genre.service";
 @Component({
     selector: 'movie-component',
     templateUrl: 'movie-table.component.html',
+    styleUrls: ['movie-table.component.css']
 })
 export class MovieTableComponent {
     dataSource = new MatTableDataSource<MovieDTO>();

@@ -16,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgFor } from "@angular/common";
 import { MatSelectModule } from "@angular/material/select";
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatButtonModule } from "@angular/material/button";
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
         MatSelectModule,
         NgFor,
         MatDatepickerModule,
-        MatNativeDateModule
+        MatNativeDateModule,
+        MatButtonModule
     ],
     providers: [provideHttpClient(),
     provideAnimations(),
