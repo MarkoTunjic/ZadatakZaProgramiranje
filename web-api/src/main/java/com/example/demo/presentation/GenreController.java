@@ -1,15 +1,14 @@
 package com.example.demo.presentation;
 
-import java.util.List;
-
+import com.example.demo.domain.dto.GenreDTO;
+import com.example.demo.service.GenreService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.domain.dto.GenreDTO;
-import com.example.demo.service.GenreService;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -21,7 +20,7 @@ public class GenreController {
         this.genreService = genreService;
     }
 
-    @GetMapping("")
+    @GetMapping(value = "", produces = "application/json")
     public ResponseEntity<List<GenreDTO>> getAllGenres() {
         return ResponseEntity.ok(genreService.getAllGenres());
     }

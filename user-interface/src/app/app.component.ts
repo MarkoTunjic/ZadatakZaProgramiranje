@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MovieService } from './services/movie.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'user-interface';
+
+  constructor(private movieService: MovieService) { }
+
+  ngOnInit() {
+    this.movieService.getAllMovies().subscribe(movies => console.log(movies))
+  }
 }

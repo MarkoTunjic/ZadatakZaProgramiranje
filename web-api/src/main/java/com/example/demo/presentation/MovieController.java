@@ -1,17 +1,12 @@
 package com.example.demo.presentation;
 
-import java.util.Date;
-import java.util.List;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.example.demo.domain.dto.MovieDTO;
 import com.example.demo.service.MovieService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -23,15 +18,15 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    @GetMapping("")
+    @GetMapping(value = "", produces = "application/json")
     public ResponseEntity<List<MovieDTO>> getAllMovies() {
         return ResponseEntity.ok(movieService.getAllMovies());
     }
 
-    @GetMapping("filtered")
+    @GetMapping(value = "filtered", produces = "application/json")
     public ResponseEntity<List<MovieDTO>> getFilteredMovies(@RequestParam(required = false) String movieName,
-            @RequestParam(required = false) Date startDate, @RequestParam(required = false) Date endDate,
-            @RequestParam(required = false) List<String> genreNames) {
+                                                            @RequestParam(required = false) Date startDate, @RequestParam(required = false) Date endDate,
+                                                            @RequestParam(required = false) List<String> genreNames) {
         return ResponseEntity.ok(movieService.getFilteredMovies(movieName, startDate, endDate, genreNames));
 
     }

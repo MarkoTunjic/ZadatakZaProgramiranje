@@ -1,0 +1,4 @@
+{
+    "development_base_path": "http://localhost:8080",
+    "production_base_path": "http://localhost:8080"
+}
