@@ -1,3 +1,41 @@
+<mat-form-field>
+    <mat-label>Choose a start date</mat-label>
+    <!-- #docregion toggle -->
+    <input matInput [matDatepicker]="picker1" name="startDate" [(ngModel)]="startDate"
+        (ngModelChange)="searchStringChange()">
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1></mat-datepicker>
+    <!-- #enddocregion toggle -->
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>Choose a end date</mat-label>
+    <!-- #docregion toggle -->
+    <input matInput [matDatepicker]="picker2" name="endDate" [(ngModel)]="endDate">
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+    <mat-datepicker #picker2></mat-datepicker>
+    <!-- #enddocregion toggle -->
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>Genre</mat-label>
+    <mat-select multiple="true" [(ngModel)]="selected" name="genrePicker">
+        <mat-option *ngFor="let genre of options | async" [value]="genre">
+            {{genre.name}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+
+<form class="example-form">
+    <mat-form-field class="example-full-width">
+        <mat-label>Search string</mat-label>
+        <input name="searchString" [(ngModel)]="searchString" matInput placeholder="Ex. Star Wars"
+            (ngModelChange)="searchStringChange()">
+    </mat-form-field>
+</form>
+
 <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort>
 

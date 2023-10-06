@@ -12,6 +12,10 @@ import { importProvidersFrom } from '@angular/core';
 import { MatNativeDateModule } from '@angular/material/core';
 import variables from "variables.json";
 import { BrowserModule } from "@angular/platform-browser";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NgFor } from "@angular/common";
+import { MatSelectModule } from "@angular/material/select";
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 
 @NgModule({
@@ -23,7 +27,14 @@ import { BrowserModule } from "@angular/platform-browser";
         MatInputModule,
         MatTableModule,
         MatSortModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        FormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        NgFor,
+        MatDatepickerModule,
+        MatNativeDateModule
     ],
     providers: [provideHttpClient(),
     provideAnimations(),
