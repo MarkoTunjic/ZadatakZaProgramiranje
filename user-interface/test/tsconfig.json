@@ -15,5 +15,7 @@
   "ts-node": {
     "transpileOnly": true
   },
-  "include": ["."]
+  "include": [
+    "."
+  ]
 }

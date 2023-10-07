@@ -8,7 +8,7 @@
 
         <mat-form-field class="genre-field">
             <mat-label>Genre</mat-label>
-            <mat-select multiple="true" [(ngModel)]="genreNames" name="genrePicker">
+            <mat-select id="dropdown" multiple="true" [(ngModel)]="genreNames" name="genrePicker">
                 <mat-option *ngFor="let genre of options | async" [value]="genre.name">
                     {{genre.name}}
                 </mat-option>
