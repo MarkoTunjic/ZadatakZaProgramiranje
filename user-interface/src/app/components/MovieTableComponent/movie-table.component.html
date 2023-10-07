@@ -18,7 +18,7 @@
         <mat-form-field class="date-filter">
             <mat-label>Choose a start date</mat-label>
             <!-- #docregion toggle -->
-            <input matInput [defaultValue]="startDate" [matDatepicker]="picker1" name="startDate"
+            <input id="start-date" matInput [defaultValue]="startDate" [matDatepicker]="picker1" name="startDate"
                 [(ngModel)]="startDate">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
@@ -29,7 +29,7 @@
         <mat-form-field class="date-filter">
             <mat-label>Choose a end date</mat-label>
             <!-- #docregion toggle -->
-            <input matInput [matDatepicker]="picker2" name="endDate" [(ngModel)]="endDate">
+            <input id="end-date" matInput [matDatepicker]="picker2" name="endDate" [(ngModel)]="endDate">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
