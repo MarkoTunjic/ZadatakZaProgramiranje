@@ -2,7 +2,8 @@
     <div class="filter-inputs">
         <mat-form-field class="example-full-width search-field">
             <mat-label>Search string</mat-label>
-            <input name="searchString" [(ngModel)]="searchString" matInput placeholder="Ex. Star Wars">
+            <input id="search-field" name="searchString" [(ngModel)]="searchString" matInput
+                placeholder="Ex. Star Wars">
         </mat-form-field>
 
         <mat-form-field class="genre-field">
@@ -36,12 +37,13 @@
         </mat-form-field>
     </div>
     <div>
-        <button (click)="filter()" class="submit-button" mat-raised-button color="primary">Submit</button>
+        <button id="submit-button" (click)="filter()" class="submit-button" mat-raised-button
+            color="primary">Submit</button>
     </div>
 </div>
 
 
-<div class="mat-elevation-z8">
+<div class="mat-elevation-z8" id="movies-table">
     <table mat-table [dataSource]="dataSource" matSort>
 
         <!-- ID Column -->
