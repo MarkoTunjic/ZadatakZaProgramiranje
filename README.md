@@ -35,7 +35,7 @@ For generating frontend fetch commands, towards the backend, the open-api config
 
 # Improvements (that could be done)
 1. Use a database versioning software like flyway or liquibase
-2. Frontend design :) and error handling
+2. Frontend design :) and error handling. For example adding a loading spinner when fetching data from backend
 3. CRUD operations for create, update and delete + validation
 4. User managment+authorisation+authentication using OAuth2/OpenID standard with a free provider like Auth0
 5. Usage of design patterns like "strategy" and "template method" to reduce code duplication in tests (P.S didn't use it becouse I always had an error "stale component ID" when running tests)
