@@ -22,9 +22,9 @@ To run the application locally follow these steps
 ## 1. Database
 For the database development postgresql was used to create and run a relational databse. The used IDE was pgAdmin
 ## 2. Backend
-For the backend development spring boot 3.1.4 was used with hibernate and JPA for database access. For testing JUnit, Mockito and a in memory H2 database were used
+For the backend development spring boot 3.1.4 was used with hibernate and JPA for database access. For testing JUnit, Mockito and a in memory H2 database were used. The code was typed in IntelliJ IDE.
 ## 3. Frontend
-For frontend development angular with angular material-ui were used. For e2e tests nightwatch.js was used
+For frontend development angular with angular material-ui were used. For e2e tests nightwatch.js was used. The code was typed in VSCode editor.
 ## 4. Deployment
 For deployement of backend I used docker and frontend was deployed using the built in npm run build command which generates a static html+css+js site.
 ## 5. Cloud
