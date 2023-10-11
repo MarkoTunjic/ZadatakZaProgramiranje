@@ -20,6 +20,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { RouterModule } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { appRoutes } from "src/app/app.routes";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
     declarations: [
@@ -38,6 +39,7 @@ import { appRoutes } from "src/app/app.routes";
         NgFor,
         MatDatepickerModule,
         MatNativeDateModule,
+        MatProgressSpinnerModule,
         MatButtonModule,
         RouterModule,
         RouterTestingModule,

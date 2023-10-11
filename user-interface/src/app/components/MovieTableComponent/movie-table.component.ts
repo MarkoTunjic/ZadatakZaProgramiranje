@@ -22,6 +22,7 @@ export class MovieTableComponent {
     dataSource = new MatTableDataSource<MovieDTO>();
     displayedColumns: string[] = ['id', 'name', 'addingDate', 'genreName'];
     options: Observable<GenreDTO[]>;
+    isLoading: boolean;
 
     searchString: string = ""
     genreNames: string[];
@@ -35,6 +36,7 @@ export class MovieTableComponent {
     }
 
     ngOnInit() {
+        this.isLoading = true;
         this.route.queryParams
             .subscribe(params => {
                 console.log(params); // { order: "popular" }
@@ -47,6 +49,7 @@ export class MovieTableComponent {
                 this.movieService.getFilteredMovies(this.searchString, formattedStartDate, formattedEndDate, this.genreNames).subscribe(movies => {
                     this.dataSource = new MatTableDataSource(movies)
                     this.dataSource.paginator = this.paginator;
+                    this.isLoading = false;
                 });
             }
             );
@@ -71,9 +74,12 @@ export class MovieTableComponent {
                 },
             }
         );
+        this.dataSource = new MatTableDataSource();
+        this.isLoading = true;
         this.movieService.getFilteredMovies(adjustedSearchString, formattedStartDate, formattedEndDate, this.genreNames).subscribe(movies => {
             this.dataSource = new MatTableDataSource(movies)
             this.dataSource.paginator = this.paginator;
+            this.isLoading = false;
         });
     }
 }

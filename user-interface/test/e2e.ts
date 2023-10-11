@@ -17,6 +17,8 @@ const home: NightwatchTests = {
         browser.waitForElementVisible("#submit-button", 500)
             .click("#submit-button");
 
+        browser.waitForElementPresent("#spinner");
+        browser.waitForElementNotPresent("#spinner");
         const className = '.cdk-column-name';
         let disabled = await browser.getAttribute(".mat-mdc-paginator-navigation-next", "disabled")
         do {
@@ -31,11 +33,12 @@ const home: NightwatchTests = {
 
     "Genre search test": async () => {
         browser.url("http://localhost:4200");
+        browser.waitForElementNotPresent("#spinner");
 
         const genres = ["Comedy", "Horror"]
         browser.waitForElementVisible("#dropdown").click("#dropdown");
 
-        browser.waitForElementVisible("#dropdown-panel", 500)
+        browser.waitForElementVisible("#dropdown-panel", 5000)
         for (let genre of genres) {
             browser.click("mat-option[ng-reflect-value=" + genre + "]")
         }
@@ -45,6 +48,8 @@ const home: NightwatchTests = {
         browser.waitForElementVisible("#submit-button", 500)
             .click("#submit-button");
 
+        browser.waitForElementPresent("#spinner");
+        browser.waitForElementNotPresent("#spinner");
         const className = '.cdk-column-genreName';
         let disabled = await browser.getAttribute(".mat-mdc-paginator-navigation-next", "disabled")
         do {
@@ -60,7 +65,7 @@ const home: NightwatchTests = {
                         }
                     }
                     if (!found) {
-                        assert.fail("Genre not in filtered genres");
+                        assert.fail("Genre not in filtered genres: " + currentGenre);
                     } else {
                         assert.ok("true");
                     }
@@ -73,6 +78,7 @@ const home: NightwatchTests = {
 
     "Start date search test": async () => {
         browser.url("http://localhost:4200");
+        browser.waitForElementNotPresent("#spinner");
 
         const startDate = "10/10/2020";
 
@@ -82,6 +88,8 @@ const home: NightwatchTests = {
         browser.waitForElementVisible("#submit-button", 500)
             .click("#submit-button");
 
+        browser.waitForElementPresent("#spinner");
+        browser.waitForElementNotPresent("#spinner");
         const className = '.cdk-column-addingDate';
         let disabled = await browser.getAttribute(".mat-mdc-paginator-navigation-next", "disabled")
         let cond = new Date(startDate);
@@ -102,6 +110,7 @@ const home: NightwatchTests = {
     },
     "End date search test": async () => {
         browser.url("http://localhost:4200");
+        browser.waitForElementNotPresent("#spinner");
 
         const endDate = "10/10/2022";
 
@@ -111,6 +120,8 @@ const home: NightwatchTests = {
         browser.waitForElementVisible("#submit-button", 500)
             .click("#submit-button");
 
+        browser.waitForElementPresent("#spinner");
+        browser.waitForElementPresent("#spinner");
         const className = '.cdk-column-addingDate';
         let disabled = await browser.getAttribute(".mat-mdc-paginator-navigation-next", "disabled")
         let cond = new Date(endDate);
@@ -132,6 +143,7 @@ const home: NightwatchTests = {
 
     "All filter test": async () => {
         browser.url("http://localhost:4200");
+        browser.waitForElementNotPresent("#spinner");
 
         //title search
         const searchQuery = "a";
@@ -160,15 +172,20 @@ const home: NightwatchTests = {
         browser.waitForElementVisible("#submit-button", 500)
             .click("#submit-button");
 
+        browser.waitForElementPresent("#spinner");
+        browser.waitForElementNotPresent("#spinner");
         let disabled = await browser.getAttribute(".mat-mdc-paginator-navigation-next", "disabled")
         let end = new Date(endDate);
         let start = new Date(startDate);
         do {
+            browser.waitForElementVisible(".cdk-column-name");
+
             (await browser.findElements(".cdk-column-name")).forEach(async (element, index) => {
                 if (index > 0)
                     browser.assert.textMatches('tbody>:nth-child(' + (index) + ')>:nth-child(2)', new RegExp(searchQuery, 'i'))
             });
 
+            browser.waitForElementVisible(".cdk-column-name");
             (await browser.findElements(".cdk-column-genreName")).forEach(async (element, index) => {
                 let currentGenre: string = await browser.elementIdText(element.getId());
                 currentGenre = await browser.elementIdText(element.getId())//for some reason it gotta be done twice
@@ -187,12 +204,8 @@ const home: NightwatchTests = {
                     }
                 }
             });
-            if (!disabled)
-                browser.click(".mat-mdc-paginator-navigation-next");
-        } while (!(disabled = await browser.getAttribute(".mat-mdc-paginator-navigation-next", "disabled")));
 
-        //for some reason if everything under 1 loop it breaks
-        do {
+            browser.waitForElementVisible(".cdk-column-name");
             (await browser.findElements('.cdk-column-addingDate')).forEach(async (element, index) => {
                 if (index > 0) {
                     let date = new Date(await browser.elementIdText(element.getId()));
@@ -203,6 +216,8 @@ const home: NightwatchTests = {
                     }
                 }
             });
+
+            browser.waitForElementVisible(".cdk-column-name");
             (await browser.findElements('.cdk-column-addingDate')).forEach(async (element, index) => {
                 if (index > 0) {
                     let date = new Date(await browser.elementIdText(element.getId()));
