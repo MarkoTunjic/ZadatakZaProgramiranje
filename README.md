@@ -18,6 +18,11 @@ To run the application locally follow these steps
 #### 7. Setup angular on you machine
 #### 8. Lastly start the frontend by running npm install and npm run in the folder user-interface/
 
+# Testing
+#### 1. Startup backend from your favorite IDE or if you want through command line first place yourself into the web-api folder then run: "mvn clean package" and then "java -jar ./target/application-0.0.1-SNAPSHOT.jar"
+#### 2. Startup frontend by running the command: "npm start" in the user-interface folder
+#### 3. run the tests with the command "npx nightwatch ./test/e2e.ts"
+
 # Tech stack
 ## 1. Database
 For the database development postgresql was used to create and run a relational databse. The used IDE was pgAdmin
